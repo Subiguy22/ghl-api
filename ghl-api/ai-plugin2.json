@@ -1,0 +1,31 @@
+import json
+import os
+
+# Ensure folder exists
+os.makedirs("ghl-api", exist_ok=True)
+
+# Define plugin v2 manifest
+plugin_manifest_v2 = {
+    "schema_version": "v1",
+    "name_for_human": "GPT Admin Configurator v2",
+    "name_for_model": "gpt_admin_configurator_v2",
+    "description_for_human": "Advanced version of GPT Admin Configurator. Manage snapshots, business settings, and subaccounts with JWT auth.",
+    "description_for_model": "Advanced admin API for configuring business logic, saving/restoring configurations, and applying them to multi-tenant environments.",
+    "auth": {
+        "type": "bearer"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "https://api.attained-success.dev/v1/openapi3.json",
+        "is_user_authenticated": True
+    },
+    "logo_url": "https://api.attained-success.dev/logo-v2.png",
+    "contact_email": "enterprise@gptadmin.dev",
+    "legal_info_url": "https://attained-success.dev/legal"
+}
+
+# Save into ghl-api folder
+with open("ghl-api/ai-plugin2.json", "w") as f:
+    json.dump(plugin_manifest_v2, f, indent=2)
+
+print("✅ Saved 'ai-plugin2.json' to folder: ghl-api/")

@@ -1,0 +1,5 @@
+import shutil
+
+# Zip the entire ghl-api folder into ghl-api.zip
+shutil.make_archive("ghl-api", "zip", "ghl-api")
+print("✅ Created: ghl-api.zip")
