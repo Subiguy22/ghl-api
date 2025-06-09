@@ -173,7 +173,6 @@ openapi_3 = {
 
 with open("openapi.json", "w") as f:
     json.dump(openapi_3, f, indent=2)
-Move openapi.json to root
-
 
 print("✅ Saved openapi3.json")
+

@@ -25,7 +25,7 @@ plugin_manifest_v2 = {
 }
 
 # Save into ghl-api folder
-with open("ghl-api/ai-plugin2.json", "w") as f:
+with open("ai-plugin2.json", "w") as f:
     json.dump(plugin_manifest_v2, f, indent=2)
 
-print("✅ Saved 'ai-plugin2.json' to folder: ghl-api/")
+print("✅ Saved Move ai-plugin2.json to root")
