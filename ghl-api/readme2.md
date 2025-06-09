@@ -1,7 +1,7 @@
 import os
 
 # Path to default README.md
-readme_path = "ghl-api/README.md"
+readme_path = "README.md"
 
 # Remove it if it exists
 if os.path.exists(readme_path):
