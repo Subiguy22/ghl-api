@@ -1,1 +1,178 @@
+import json
+
+openapi_3 = {
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GPT Admin Business Config API",
+    "version": "1.0.0",
+    "description": "API for configuring scalable business settings and applying snapshots to subaccounts"
+  },
+  "paths": {
+    "/configureBusiness": {
+      "post": {
+        "summary": "Configure business settings",
+        "operationId": "configureBusiness",
+        "requestBody": {
+          "required": True,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessConfig"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuration applied successfully"
+          }
+        },
+        "security": [{"bearerAuth": []}]
+      }
+    },
+    "/snapshot": {
+      "post": {
+        "summary": "Create a snapshot of the current business config",
+        "operationId": "createSnapshot",
+        "responses": {
+          "201": {
+            "description": "Snapshot created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Snapshot"
+                }
+              }
+            }
+          }
+        },
+        "security": [{"bearerAuth": []}]
+      }
+    },
+    "/snapshot/{id}": {
+      "get": {
+        "summary": "Get snapshot details",
+        "operationId": "getSnapshot",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": True,
+          "schema": {"type": "string"}
+        }],
+        "responses": {
+          "200": {
+            "description": "Snapshot retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Snapshot"
+                }
+              }
+            }
+          }
+        },
+        "security": [{"bearerAuth": []}]
+      }
+    },
+    "/subaccounts/{id}/apply": {
+      "post": {
+        "summary": "Apply snapshot to a subaccount",
+        "operationId": "applySnapshotToSubaccount",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": True,
+          "schema": {"type": "string"}
+        }],
+        "requestBody": {
+          "required": True,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "snapshotId": {"type": "string"}
+                },
+                "required": ["snapshotId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Snapshot applied to subaccount"}
+        },
+        "security": [{"bearerAuth": []}]
+      }
+    },
+    "/status": {
+      "get": {
+        "summary": "Check system status",
+        "operationId": "checkStatus",
+        "responses": {
+          "200": {
+            "description": "System is operational",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BusinessConfig": {
+        "type": "object",
+        "required": ["companyName", "features", "settings"],
+        "properties": {
+          "companyName": {"type": "string"},
+          "features": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "settings": {
+            "type": "object",
+            "additionalProperties": {"type": "string"}
+          }
+        }
+      },
+      "Snapshot": {
+        "type": "object",
+        "required": ["id", "createdAt", "config"],
+        "properties": {
+          "id": {"type": "string"},
+          "createdAt": {"type": "string", "format": "date-time"},
+          "config": {"$ref": "#/components/schemas/BusinessConfig"}
+        }
+      },
+      "Status": {
+        "type": "object",
+        "required": ["uptime", "services"],
+        "properties": {
+          "uptime": {"type": "string"},
+          "services": {
+            "type": "object",
+            "additionalProperties": {"type": "string"}
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
+
+with open("openapi.json", "w") as f:
+    json.dump(openapi_3, f, indent=2)
+
+print("✅ Saved openapi3.json")
 
